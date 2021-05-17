@@ -35,6 +35,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
+            'fwpnumber' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             "image" => "image|max:2000|mimes:jpeg,png,jpg",
@@ -55,6 +56,7 @@ class UserController extends Controller
                 }
                 User::where("id", "=", Auth::user()->id)->update([
                     "name" => $inputs["name"],
+                    "fwpnumber" => $inputs["fwpnumber"],
                     "email" => $inputs["email"],
                     "password" => Hash::make($inputs["password"]),
                     "image" => $saveName
@@ -67,6 +69,7 @@ class UserController extends Controller
             try {
                 User::where("id", "=", Auth::user()->id)->update([
                     "name" => $inputs["name"],
+                    "fwpnumber" => $inputs["fwpnumber"],
                     "email" => $inputs["email"],
                     "password" => Hash::make($inputs["password"])
                 ]);

@@ -74,6 +74,17 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-12">FWP Number</label>
+                            <div class="col-md-12">
+                                <input id="fwpnumber" type="text" placeholder="fwpnumber" value="{{Auth()->user()->fwpnumber}}" class="form-control form-control-sm @error('fwpnumber') is-invalid @enderror" name="fwpnumber" required>
+                                @error('fwpnumber')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-12">Profile Image</label>
                             <div class="col-md-12">
                                 <input id="image" name="image" type="file" class="form-control form-control-line">

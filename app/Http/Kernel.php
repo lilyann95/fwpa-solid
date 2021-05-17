@@ -66,5 +66,7 @@ class Kernel extends HttpKernel
         'chairman' => \App\Http\Middleware\checkUser::class,
         'treasurer' => \App\Http\Middleware\checkUserTre::class,
         'activation' =>\App\Http\Middleware\CheckuserType::class,
+        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
     ];
+   
 }

@@ -8,6 +8,7 @@ class Savings extends Model
 {
     protected $fillable = [
         'name_id',
+        'date',
         'name',
         'monthly_contribution',
         'late_payment',
@@ -19,7 +20,6 @@ class Savings extends Model
         'consecration',
         'sickness',
         'death',
-        'loan_liability',
         'total_amount'
     ];
 
@@ -28,15 +28,11 @@ class Savings extends Model
     }
 
     public function expense() {
-        return $this->hasOne("App\Expenses");
+        return $this->hasMany("App\Expenses");
     }
-
-    public function deposits() {
-        return $this->hasOne("App\Deposits");
+    public function loans(){
+        return $this->hasMany("App\Loans");
     }
-
-    public function payouts() {
-        return $this->hasOne("App\Payouts");
-    }
+   
 } 
 

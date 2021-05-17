@@ -17,6 +17,7 @@ class CreateSavingsTable extends Migration
             $table->id();
             $table->foreignId("user_id");
             $table->string('name_id');
+            $table->string('date');
             $table->string('name');
             $table->string('monthly_contribution');
             $table->string('late_payment')->default('0');
@@ -28,7 +29,6 @@ class CreateSavingsTable extends Migration
             $table->string('consecration')->nullable()->default('0');
             $table->string('sickness')->nullable()->default('0');
             $table->string('death')->default('0');
-            $table->longText('loan_liability')->default('0');
             $table->string('total_amount');
             $table->timestamps();
         });

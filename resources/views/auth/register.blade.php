@@ -37,6 +37,15 @@
                             </span>
                         @enderror
 					</div>
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="fwpnumber is required">
+                        <span class="label-input100">FWP Number</span>
+                        <input id="fwpnumber" type="text" class="form-control @error('fwpnumber') is-invalid @enderror" name="fwpnumber" value="{{ old('fwpnumber') }}" required autocomplete="fwpnumber" autofocus>
+                        @error('fwpnumber')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+					</div>
                     <div class="wrap-input100 validate-input m-b-26" data-validate="Email is required">
                         <span class="label-input100">Email</span>
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">

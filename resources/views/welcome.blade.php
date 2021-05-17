@@ -4,18 +4,18 @@
         <div class="page-breadcrumb">
             <div class="row align-items-center">
                 <div class="col-5">
-                    <h4 class="page-title">Dashboard</h4>
+                    <h4 class="page-title">Expense Requests</h4>
                     <div class="d-flex align-items-center">
-                        <nav aria-label="breadcrumb">
+                        <!-- <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item active" aria-current="page">Home</li>
                             </ol>
-                        </nav>
+                        </nav> -->
                     </div>
                 </div>
                 <div class="col-7">
                     <div class="text-right upgrade-btn">
-                        <a href="#" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#expenses">New Expense</a>
+                        <a href="#" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#expenses">New Expense</a>
                     </div>
                 </div>
             </div>

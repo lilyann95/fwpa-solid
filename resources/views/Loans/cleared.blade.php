@@ -1,5 +1,5 @@
 @section('dynamic-js')
-    <script src="{{ asset('/dist/js/expences.js?v=134345')}}"></script>
+    <script src="{{ asset('/dist/js/loans.js?v=134345')}}"></script>
 @stop
 @extends('layouts.app')
 @section('content')
@@ -7,20 +7,11 @@
         <div class="page-breadcrumb">
             <div class="row align-items-center">
                 <div class="col-5">
-                    <h4 class="page-title">All Expenses</h4>
-                    <div class="d-flex align-items-center">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('welcome')}}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">All Expenses</li>
-                            </ol>
-                        </nav>
-                    </div>
+                    <h4 class="page-title">All Cleared Loans</h4>
                 </div>
                 <div class="col-7">
-                    <div class="text-right upgrade-btn"> 
-                    <!-- <i class="fa fa-download" aria-hidden="true"></i> Download PDFclass="btn btn-sm btn-outline-primary"  -->
-                        <a href="{{route('pdf')}}" target="_blank" data-toggle="modal" data-target="#pdf"><i class="fas fa-eye fa-3x" title="VIEW EXPENSES REPORT" ></i></a>
+                    <div class="text-right upgrade-btn">
+                        <a href="#" data-toggle="modal" data-target="#loanpdf"><i class="fas fa-eye fa-3x" title="VIEW LOANS REPORT" ></i></a>
                     </div>
                 </div>
             </div>
@@ -35,12 +26,12 @@
                             <!-- title -->
                             <div class="d-md-flex align-items-center">
                                 <div>
-                                    <h6 class="card-subtitle">Expenses</h6>
-                                    <h6>Total Year: <strong class="year-total">__ UGX</strong>, Month : <strong class="month-total">__ UGX</strong></h6>
+                                    <h6 class="card-subtitle">Cleared Loans</h6>
+                                    <h6>Total Year: <strong class="year_total">__ UGX</strong>, Month : <strong class="month_total">__ UGX</strong></h6>
                                 </div>
                                 <div class="ml-auto">
                                     <div class="dl">
-                                        <input type="month" name="month" class="allExp" id="month" />
+                                        <input type="month" name="month" class="ClearedLoan" id="monthloan" />
                                     </div>
                                 </div>
                             </div>
@@ -50,15 +41,21 @@
                             <table class="table v-middle">
                                 <thead>
                                     <tr class="bg-light">
-                                        <th class="border-top-0" style="width: 55%;">Description</th>
-                                        <th class="border-top-0">Amount</th>
-                                        <th class="border-top-0">Payee</th>
+                                    <th class="border-top-0" style="width: 25%;">Description</th>
+                                        <th class="border-top-0">Loan Amount</th>
+                                        <th class="border-top-0">Months Taken</th>
+                                        <th class="border-top-0">Processing Fee</th>
+                                        <th class="border-top-0">Expected Loan Return</th>
+                                        <th class="border-top-0">Guarantor</th>
+                                        <th class="border-top-0">Guarantor Amount</th>
+                                        <th class="border-top-0">User Name</th>
+                                        <th class="border-top-0">User Number</th>
                                         <th class="border-top-0">Date</th>
                                         <th class="border-top-0">Status</th>
                                     </tr>
                                 </thead>
                                 {{-- get all form jQuery --}}
-                                <tbody class="all-tbody"></tbody>
+                                <tbody class="ClearedLoans-tbody"></tbody>
                             </table>
                         </div>
                     </div>

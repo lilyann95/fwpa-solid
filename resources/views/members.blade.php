@@ -48,8 +48,8 @@
                                         <button class="btn btn-sm btn-outline-danger action" data-id={{$user->id}} btn-action="deactivate"><i class="mdi mdi-close-circle"></i>deactivate</button>
                                         <button class="btn btn-sm btn-outline-success action" data-id={{$user->id}} btn-action="activate" disabled><i class="mdi mdi-check"></i>activate</button>
                                     @endif
+                                    <button class="btn btn-sm btn-outline-info action float-right" data-id={{$user->id}} btn-action="reset"><i class="fas fa-cog"></i> reset</button>
                                 @endif
-                                <button class="btn btn-sm btn-outline-info action float-right" data-id={{$user->id}} btn-action="reset"><i class="fas fa-cog"></i> reset</button>
                             </div>
                         </div>
                     </div>

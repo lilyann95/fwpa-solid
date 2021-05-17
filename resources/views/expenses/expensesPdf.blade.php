@@ -28,93 +28,68 @@
             .inside-row:nth-child(even) {
                 background-color: whitesmoke;
             }
+            
             .custom-td{
                 white-space: break-spaces;
                 width: 65%;
             }
         </style>
+        <title>EXPENSES REPORT</title>
     </head>
     <body>
-        @if (count($collection)>0)
-        <div class="year">
-            <span style="float: right;">{{$year}} Total Expense: 
-                <strong>{{number_format($yearTotal, 2)}} UGX</strong>
-            </span>
+        <div style="display: flex;">
+            <div class="col-5">
+                <img src="images/logo.jpg" alt="NO IMAGE FOUND"  width="50" height="60" style="margin-left: auto; margin-right: auto;">
+            </div>
+            <br>
+            <div class="col-7">
+                <h4 style="text-align: center;">FWP APPROVED EXPENSES FOR FOR {{$year1}} TO {{ $year2 }} </h4>
+            </div>
         </div>
-            @foreach ($collection as $expenses)
-                    <div style="margin-bottom: 5px; margin-top: 20px;">
-                        <span>Expenses for
-                            <strong>
-                                @if ($expenses->month)
-                                    @switch($expenses->month)
-                                        @case("01")
-                                            January
-                                            @break
-                                        @case("02")
-                                            Febrary
-                                            @break
-                                        @case("03")
-                                            March
-                                            @break
-                                        @case("04")
-                                            April
-                                            @break
-                                        @case("05")
-                                            May
-                                            @break
-                                        @case("06")
-                                            June
-                                            @break
-                                        @case("07")
-                                            Jully
-                                            @break
-                                        @case("08")
-                                            August
-                                            @break
-                                        @case("09")
-                                            September
-                                            @break
-                                        @case("10")
-                                            October
-                                            @break
-                                        @case("11")
-                                            November
-                                            @break
-                                        @case("12")
-                                            December
-                                            @break
-                                        @default
-                                            @break
-                                    @endswitch
-                                    : {{number_format($expenses->monthTotal, 2)}} UGX
-                                @endif
-                            </strong>
-                        </span>
-                        <br>
-                    </div>
-                <table>
-                    <thead>
+        @if (count($collection)>0)
+            <div style="display: flex;">
+                <div class="year">
+                    <span style="float: right;">Total Expense: 
+                        <strong>{{number_format($yearTotal, 2)}} UGX</strong>
+                    </span>
+                </div>
+            </div>    
+           <br>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" class="th-main">S/N</th>
+                        <th scope="col" class="th-main" style="width: 60%;">DESCRIPTION</th>
+                        <th scope="col" class="th-main">AMOUNT</th>
+                        <th scope="col" class="th-main">PAYEE</th>
+                        <th scope="col" class="th-main">DATE/TIME</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($collection as $expense)
                         <tr>
-                            <th scope="col" class="th-main" style="width: 60%;">DESCRIPTION</th>
-                            <th scope="col" class="th-main">AMOUNT</th>
-                            <th scope="col" class="th-main">PAYEE</th>
-                            <th scope="col" class="th-main">DATE/TIME</th>
+                            <td class="td-main">{{$loop->iteration}}</td>
+                            <td class="td-main">
+                                {{$expense->desc}}
+                            </td>
+                            <td class="td-main">{{number_format($expense->budget, 2)}}</td>
+                            <td class="td-main">{{$expense->name}}</td>
+                            <td class="td-main">{{$expense->created_at}}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($expenses->expenses as $expense)
-                            <tr>
-                                <td class="td-main">
-                                    {{$expense->desc}}
-                                </td>
-                                <td class="td-main">{{number_format($expense->budget, 2)}}</td>
-                                <td class="td-main">{{$expense->name}}</td>
-                                <td class="td-main">{{$expense->created_at}}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @endforeach
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="container">
+                <br>
+                Approved By
+                <br>
+                <br>
+                <br>
+                <br>
+                ................................. 
+                <br>
+                SECRETARY FOR FINANCE AND PROJECTS
+            </div>
         @endif
     </body>
 </html>

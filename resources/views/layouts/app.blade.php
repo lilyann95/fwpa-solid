@@ -48,8 +48,59 @@
             border-bottom: 1px solid black;
            
         }
+        .Exp {
+            color: #800020 !important;
+        }
         #par{
             border: 2px solid black;
+        }
+        .lily{
+            display: none;
+        }
+        .nopayout{
+            display: none;
+        }
+        .noname {
+            display: none;
+        }
+        .noloanpdfname {
+            display: none;
+        }
+        .nomembername {
+            display: none;
+        }
+        .nopdfname {
+            display: none;
+        }
+        .noguar{
+            display: none;
+        }
+        .notification {
+        /* background-color: #555; */
+        /* color: white; */
+        text-decoration: none;
+        padding: 8px 15px;
+        position: relative;
+        display: inline-block;
+        border-radius: 2px;
+        }
+
+        /* .notification:hover {
+        background: red;
+        } */
+
+        .notification .badge3 {
+            display: none;
+        }
+        .notification .badge2 {
+        /* display: none; */
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        padding: 3px 8px;
+        border-radius: 25%;
+        background: red;
+        color: white;
         }
         /* .btn{
             border-bottom: 1px solid;
@@ -64,7 +115,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -123,12 +174,15 @@
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script src="{{asset('assets/libs/jquery/dist/jquery.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts-en.common.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{asset('assets/libs/popper.js/dist/umd/popper.min.js')}}"></script>
     <script src="{{asset('assets/libs/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('dist/js/app-style-switcher.js')}}"></script>
     <script src="{{asset('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('vendor/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    
     @yield('dynamic-js')
     <script type="text/javascript">
         // When the document is ready
@@ -380,15 +434,58 @@
             $("#expenses").modal("show");
         });
 
-        $(document).on("click", ".delete-icon", function(e) {
-            e.preventDefault();
-            var deleteExp = {"id": $(this).attr("id-data")}
-            $.when(postActions("expenses/delete", deleteExp).done(response => {
-                fetchExpenses();
-            }).fail(error => {
-                console.log(error);
-            }));
+        // $(document).on("click", ".delete-icon", function(e) {
+        //     e.preventDefault();
+        //     var deleteExp = {"id": $(this).attr("id-data")}
+        //     $.when(postActions("expenses/delete", deleteExp).done(response => {
+        //         fetchExpenses();
+        //     }).fail(error => {
+        //         console.log(error);
+        //     }));
+        // });
+
+
+
+            //icon when clicked to delete loan
+        $(document).on("click", ".delete-icon", function (e) {
+            $("#delete-alert-expenses").modal("show");
+            $("#deleteExpense-confirm").attr("id-data", $(this).attr("id-data"));
         });
+
+        //when a delete button is clicked from the warning modal for loans
+        $(document).on("click", "#deleteExpense-confirm", function (e) {
+            e.preventDefault();
+
+            //disabling button and changing html
+            $(this)
+            .prop("disabled", true)
+            .html(`<i class="fa fa-spinner" aria-hidden="true"></i> Deleting...`);
+            var deleteExp = { id: $(this).attr("id-data") };
+            $.when(
+            postActions("expenses/delete", deleteExp)
+                .done((response) => {
+                    fetchExpenses();
+
+                //closing modal
+                $("#delete-alert-expenses").modal("hide");
+
+                //returning button html and enabling it
+                $(this)
+                    .prop("disabled", false)
+                    .html(
+                    `<i class="fa fa-trash" aria-hidden="true"></i> Confirm Delete`
+                    );
+                $("#deleteExpense-confirm").attr("id-data", "");
+                })
+                .fail((error) => {
+                console.log(error);
+                })
+            );
+        });
+
+
+
+
 
         $(document).on("click", ".recommend-icon", function(e) {
             e.preventDefault();
@@ -580,7 +677,7 @@
                 renderAllExpenses(response.expenses);
                 $(".year-total").html(`${numberWithCommas(response.totalYear)} UGX`);
                 $(".month-total").html(`${numberWithCommas(response.totalMonth)} UGX`);
-            }).fail(error => {
+        }).fail(error => {
                 console.log(error);
             }))
         }
@@ -620,9 +717,6 @@
         //     fetchRecoExp();
         //     fetchAllExpenses();
         // }, 6000);
-
-       
-
 
 
 

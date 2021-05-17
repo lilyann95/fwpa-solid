@@ -20,20 +20,8 @@ class Expenses extends Model
     public function savings() {
         return $this->hasMany("App\savings");
     }
+    public function loans(){
+        return $this->hasMany("App\Loans");
+    }
 
-    public function deposits() {
-        return $this->hasOne("App\Deposits");
-    }
-    public function payouts() {
-        return $this->hasOne("App\Payouts");
-    }
-    
-    // public function scopebudget()
-    // {
-    //     return response()->json( DB::table("expenses")
-    //                 ->where("user_id", "=", Auth::user()->id)
-    //                 ->join("users", "expenses.user_id", "=", "users.id")
-    //                 ->select("expenses.budget")->get()
-    // );
-    // }
 }

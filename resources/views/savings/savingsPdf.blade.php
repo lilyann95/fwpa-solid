@@ -33,112 +33,78 @@
                 width: 65%;
             }
         </style>
+        <title>SAVINGS REPORT</title>
     </head>
     <body>
-        @if (count($collection)>0)
+        <div style="display: flex;">
+            <div class="col-5">
+                <img src="images/logo.jpg" alt="NO IMAGE FOUND"  width="50" height="60" style="margin-left: auto; margin-right: auto;">
+            </div>
+            <br>
+            <div class="col-7">
+                <h4 style="text-align: center;">FWP SAVINGS FROM {{$year1}} TO {{ $year2 }} </h4>
+               
+                <h5 style="text-align: center;"> FOR: {{$name}} NO. {{$fwpnumber}}  </h5>
+            </div>
+        </div>
+        @if (count($savings_collection)>0)
         <div class="year">
-            <span style="float: right;">{{$dates}} Total Expense: 
+            <span style="float: right;">Total Contribution: 
                 <strong>{{number_format($yearTotal, 2)}} UGX</strong>
             </span>
         </div>
-            @foreach ($collection as $savings)
-                    <div style="margin-bottom: 5px; margin-top: 20px;">
-                        <span>Savings for
-                            <strong>
-                                @if ($savings->month)
-                                    @switch($savings->month)
-                                        @case("01")
-                                            January
-                                            @break
-                                        @case("02")
-                                            Febrary
-                                            @break
-                                        @case("03")
-                                            March
-                                            @break
-                                        @case("04")
-                                            April
-                                            @break
-                                        @case("05")
-                                            May
-                                            @break
-                                        @case("06")
-                                            June
-                                            @break
-                                        @case("07")
-                                            Jully
-                                            @break
-                                        @case("08")
-                                            August
-                                            @break
-                                        @case("09")
-                                            September
-                                            @break
-                                        @case("10")
-                                            October
-                                            @break
-                                        @case("11")
-                                            November
-                                            @break
-                                        @case("12")
-                                            December
-                                            @break
-                                        @default
-                                            @break
-                                    @endswitch
-                                    : {{number_format($savings->monthTotal, 2)}} UGX
-                                @endif
-                            </strong>
-                        </span>
-                        <br>
-                    </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col" class="th-main" style="width: 60%;">DESCRIPTION</th>
-                            <th scope="col" class="th-main">AMOUNT</th>
-                            <th scope="col" class="th-main">PAYEE</th>
-                            <th scope="col" class="th-main">DATE/TIME</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($savings->savings as $saving)
-                            <tr>
-                            <td class="border-top-0" rowspan="1" scope="col"><span class="font-14"></span></td>
-                                <td class="border-top-0" rowspan="1" scope="col"><span class="font-14">Payee</span></td>
-                                <td class="border-top-0" rowspan="1" scope="col"><span class="font-14">monthly_contribution</span></td>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Late_Payment</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Late_Meeting</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Absenteeism</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Marriage</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Birth</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Graduation</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Consecretation</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Sickness</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Death</th>
-                                <th class="border-top-0" style="background-color: #b6fcd5" scope="col">Loan Liability</th>
-                            </tr> 
-                            <tr>
-                                <td class="border-top-0" rowspan="1" scope="col"><span class="font-14">{{$saving->month}}</span></td>
-                                <td class="border-top-0" rowspan="1" scope="col"><span class="font-14">{{$saving->name}}</span></td>
-                                <td class="border-top-0" rowspan="1" scope="col"><span class="font-14">{{number_format($saving->monthly_contribution)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->late_payment)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->late_meeting)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->absenteeism)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->marriage)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->birth)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->graduation)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->consecration)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->sickness)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->death)}}</span></td>
-                                <td class="border-top-0" scope="col"><span class="font-14">{{number_format($saving->loan_liability)}}</span></td>
-                                <td class="border-top-0" rowspan="1" scope="col"><span class="font-14">{{number_format($saving->total_amount)}}</span></td>
-                                <td class="border-top-0" rowspan="1" scope="col"><span class="font-14">{{$saving->created_at}}</span></td>
-                            </tr> 
-                        @endforeach
-                    </tbody>
-                </table>
-            @endforeach
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th class="th-main" scope="col">S/N</th>
+                    <th class="th-main" scope="col">PAYMENT DATE</span></th>
+                    <th class="th-main" scope="col">MONTHLY CONTRIBUTION</span></th>
+                    <th scope="col" class="th-main">LATE PAYMENT</th>
+                    <th scope="col" class="th-main">LATE MEETING</th>
+                    <th scope="col" class="th-main">ABSENTEEISM</th>
+                    <th scope="col" class="th-main">MARRIAGE</th>
+                    <th scope="col" class="th-main">BIRTH</th>
+                    <th scope="col" class="th-main">GRADUATION</th>
+                    <th scope="col" class="th-main">CONSECRATION</th>
+                    <th scope="col" class="th-main">SICKNESS</th>
+                    <th scope="col" class="th-main">DEATH</th>
+                    <th scope="col" class="th-main">TOTAL AMOUNT</th>
+                    <th scope="col" class="th-main">DATE/TIME</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($savings_collection as $saving)
+                    <tr>
+                        <td class="th-main" scope="col">{{$loop->iteration}}</td>
+                        <td class="th-main" scope="col">{{$saving->date}}</td>
+                        <td class="th-main" scope="col">{{number_format($saving->monthly_contribution)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->late_payment)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->late_meeting)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->absenteeism)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->marriage)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->birth)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->graduation)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->consecration)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->sickness)}}</td>
+                        <td scope="col" class="th-main">{{number_format($saving->death)}}</td>>
+                        <td class="th-main" rowspan="1" scope="col">{{number_format($saving->total_amount)}}</td>
+                        <td class="th-main" rowspan="1" scope="col">>{{$saving->created_at}}</td>
+                    </tr> 
+                @endforeach
+            </tbody>
+        </table>
+        <div class="container">
+         <br>
+           <strong>Approved By</strong> 
+            <br>
+            <br>
+            <br>
+            <br>
+            ................................ 
+            <br>
+            SECRETARY FOR FINANCE AND PROJECTS
+        </div>
         @endif
     </body>
 </html>

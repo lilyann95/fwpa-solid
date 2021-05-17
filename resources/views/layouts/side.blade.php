@@ -28,32 +28,41 @@
                     </div>
                 </li>
                 <!-- side bar items -->
-                    <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('welcome')}}" aria-expanded="false">
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('dashboard')}}" aria-expanded="false">
                         <i class="mdi mdi-view-dashboard"></i>
                         <span class="hide-menu">Dashboard</span>
                     </a>
-                    </li>
+                </li>
                 <!-- Navigation -->
-                @if ((Auth()->user()->userType==="chairman")||(Auth()->user()->userType==="treasurer"))
                 <!-- Divider -->
                 <hr class="my-3">
                 <!-- Heading -->
                 <h6 class="navbar-heading p-0 text-muted">
-                   <span class="docs-normal">Expenses</span>
+                   <span class="docs-normal" style="font-size: 15px; color: #ff8533"><strong>Association Expenses</strong></span>
                 </h6>
+                    @if((Auth()->user()->userType==="chairman")||(Auth()->user()->userType==="treasurer"))
+                    
+                    @else
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('welcome')}}" aria-expanded="false">
+                        <i class="mdi mdi-file"></i>
+                            <span class="hide-menu">Expense Request</span>
+                        </a>
+                    </li>
+                    @endif
+                    
                     <li class="sidebar-item"> 
                       <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('allExpenses')}}" aria-expanded="false">
                         <i class="mdi mdi-file"></i>
                         <span class="hide-menu">All Expenses</span>
                       </a>
                     </li>
-                @endif
                 @if (Auth()->user()->userType==="treasurer")
                     <li class="sidebar-item"> 
                      <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('pending')}}" aria-expanded="false">
                         <i class="mdi mdi-file"></i>
-                        <span class="hide-menu">Pending</span>
+                        <span class="hide-menu">Pending Expenses</span>
                      </a>
                     </li>
                 @endif
@@ -61,7 +70,55 @@
                     <li class="sidebar-item"> 
                       <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('recommended')}}" aria-expanded="false">
                         <i class="mdi mdi-file"></i>
-                        <span class="hide-menu">Recommended</span>
+                        <span class="hide-menu">Recommended Expenses</span>
+                      </a>
+                    </li>
+                @endif
+                <!-- Divider -->
+                <hr class="my-3">
+                <!-- Heading -->
+                <h6 class="navbar-heading p-0 text-muted">
+                   <span class="docs-normal"style="font-size: 15px; color: #ff8533"><strong>FWP Members Loans</strong></span>
+                </h6>
+                
+                @if((Auth()->user()->userType==="chairman")||(Auth()->user()->userType==="treasurer"))
+                
+                @else
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('loans')}}" aria-expanded="false">
+                    <i class="mdi mdi-file"></i>
+                    <span class="hide-menu">Loan Request</span>
+                    </a>
+                </li>
+                @endif
+
+                @if((Auth()->user()->userType==="chairman")||(Auth()->user()->userType==="treasurer"))
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('ClearedLoans')}}" aria-expanded="false">
+                    <i class="mdi mdi-coin"></i>
+                    <span class="hide-menu">Cleared Loans</span>
+                    </a>
+                </li>
+                @endif
+                @if (Auth()->user()->userType==="treasurer")
+                    <li class="sidebar-item"> 
+                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('pendingloan')}}" aria-expanded="false">
+                        <i class="mdi mdi-cash"></i>
+                        <span class="hide-menu">Pending Loans</span>
+                     </a>
+                    </li>
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect tryloan waves-dark sidebar-link" href="{{route('allLoans')}}" aria-expanded="false">
+                            <i class="mdi mdi-coin"></i>
+                            <span class="hide-menu">Running Loans</span>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth()->user()->userType==="chairman")
+                    <li class="sidebar-item"> 
+                      <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('recommendedloan')}}" aria-expanded="false">
+                        <i class="mdi mdi-cash"></i>
+                        <span class="hide-menu">Recommended Loans</span>
                       </a>
                     </li>
                 @endif
@@ -69,7 +126,7 @@
                 <hr class="my-3">
                 <!-- Heading -->
                 <h6 class="navbar-heading text-muted">
-                   <span class="docs-normal">Savings</span>
+                   <span class="docs-normal" style="font-size: 15px; color: #ff8533"><strong>FWP Members Savings</strong></span>
                 </h6>
                 <!-- Navigation -->
                 <li class="sidebar-item"> 
@@ -78,23 +135,11 @@
                     <span class="hide-menu">Members savings</span>
                    </a>
                 </li>
-                <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('expected_deposits')}}" aria-expanded="false">
-                        <i class="mdi mdi-wallet-giftcard"></i>
-                        <span class="hide-menu">Expected Deposits</span>
-                    </a>
-                </li>
-                <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('payout')}}" aria-expanded="false">
-                    <i class="mdi mdi-wallet"></i>
-                    <span class="hide-menu">Pay out</span>
-                    </a>
-                </li>
                 <!-- Divider -->
                 <hr class="my-3">
                 <!-- Heading -->
                 <h6 class="navbar-heading p-0 text-muted">
-                   <span class="docs-normal">Management</span>
+                   <span class="docs-normal" style="font-size: 15px; color: #ff8533"><strong>FWP Management</strong></span>
                 </h6>
                 <!-- Navigation -->
                 <li class="sidebar-item"> 
@@ -115,12 +160,12 @@
                     <span class="hide-menu">Projects</span>
                    </a>
                 </li> -->
-                <li class="sidebar-item"> 
+                <!-- <li class="sidebar-item"> 
                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="error-404.html" aria-expanded="false">
                     <i class="mdi mdi-alert-outline"></i>
                     <span class="hide-menu">Others</span>
                    </a>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </div>

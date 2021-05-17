@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Expenses;
 use App\User;
+use App\Savings;
+use App\Loans;
 use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -22,6 +24,7 @@ class ExpensesController extends Controller
     {
         return view('welcome');
     }
+   
     public function allExpenses()
     {
         return view("expenses.index");
@@ -151,8 +154,8 @@ class ExpensesController extends Controller
     {
         $this->validate($request, [
             "desc" => "required",
-            "budget" => "required|numeric",
-            "months_taken" => "required|numeric"
+            "budget" => "required|numeric"
+           
         ]);
         $user = User::findOrFail(Auth::user()->id);
         $inputs = $request->all();
@@ -162,7 +165,6 @@ class ExpensesController extends Controller
                     "desc" => $inputs["desc"],
                     "budget" => $inputs["budget"],
                     "status" => "pending",
-                    "months_taken" => $inputs["months_taken"],
                     "reason" => "not cancelled"
                 ])
             );
@@ -178,13 +180,14 @@ class ExpensesController extends Controller
         $this->validate($request, [
             "desc" => "required",
             "budget" => "required|numeric"
+           
         ]);
         $inputs = $request->all();
         $user = User::findOrFail(Auth::user()->id);
         try {
             $user->expense()->where("id", "=", $id)->update([
                 "desc" => $inputs['desc'],
-                "budget" => $inputs['budget']
+                "budget" => $inputs['budget'],
             ]);
             return response()->json(["msg" => "Operation successfully"]);
         } catch (QueryException $th) {
@@ -219,84 +222,57 @@ class ExpensesController extends Controller
     }
 
     public function retrievePdf(Request $request){
+        
         $inputs = $request->all();
+        $startDate = $inputs["month1"];
+        $endDate = $inputs["month2"];
+        
         try {
-            $yearTotal = Expenses::where("created_at", "LIKE", $inputs['year'] . "-%")
+            $yearTotal = Expenses::whereBetween("created_at", [ $startDate, $endDate])
                 ->where("status", "=", "approved")->sum('budget');
-                $collection = collect();
-            for ($i=1; $i <= 12; $i++) {
-                if ($i<10) {
-                    $yearMonth = $inputs['year'].'-0'.$i;
-                    $monthTotal = Expenses::where("created_at", "LIKE", $yearMonth . "%")
-                    ->where("status", "=", "approved")->sum('budget');
-                    $expenses = DB::table("expenses")
-                    ->where("expenses.created_at", "LIKE", "{$yearMonth}%")
-                    ->where("expenses.status", "=", "approved")
-                    ->join("users", "expenses.user_id", "=", "users.id")
-                    ->select(
-                        "expenses.id",
-                        "expenses.desc",
-                        "expenses.created_at",
-                        "expenses.budget",
-                        "expenses.status",
-                        "expenses.user_id",
-                        "users.name",
-                        "users.userType"
-                    )->orderBy("created_at", "desc")->get();
-                    if (!$expenses->isEmpty()) {
-                        $collection->push((object)[
-                            "month" => "0".$i,
-                            "monthTotal"=>$monthTotal,
-                            "expenses" => $expenses
-                        ]);
-                    }
-                }
-                else{
-                    $yearMonth = $inputs['year'] . '-' . $i;
-                    $monthTotal = Expenses::where("created_at", "LIKE", $yearMonth ."%")
-                    ->where("status", "=", "approved")->sum('budget');
-                    $expenses = DB::table("expenses")
-                    ->where("expenses.created_at", "LIKE", "{$yearMonth}%")
-                    ->where("expenses.status", "=", "approved")
-                    ->join("users", "expenses.user_id", "=", "users.id")
-                    ->select(
-                        "expenses.id",
-                        "expenses.desc",
-                        "expenses.created_at",
-                        "expenses.budget",
-                        "expenses.status",
-                        "expenses.user_id",
-                        "users.name",
-                        "users.userType"
-                    )->orderBy("created_at", "desc")->get();
-                    if(!$expenses->isEmpty()){
-                        $collection->push((object)[
-                            "month"=>$i,
-                            "monthTotal"=>$monthTotal,
-                            "expenses"=>$expenses
-                        ]);
-                    }
-                    
-                }
-            }
-                $pdf = PDF::loadView(
-                    "expenses.expensesPdf",
-                    [
-                        "collection" => $collection,
-                        "yearTotal" => $yearTotal,
-                        "year" => $inputs['year']
-                    ]
-                );
-            // return view(
-            //     "expenses.expensesPdf",
-            //     [
-            //         "collection" => $collection, 
-            //         "yearTotal" => $yearTotal, 
-            //         "year" => $inputs['year']
-            //     ]
-            // );
-            // return $pdf->download("fwpassociation-expenses.pdf");
-            return $pdf->stream('fwpassociation-expenses.pdf');
+            $expenses = DB::table("expenses")
+                        ->whereBetween("expenses.created_at", [$startDate, $endDate])
+                        ->where("expenses.status", "=", "approved")
+                        ->join("users", "expenses.user_id", "=", "users.id")
+                        ->select(
+                            "expenses.id",
+                            "expenses.desc",
+                            "expenses.created_at",
+                            "expenses.budget",
+                            "expenses.status",
+                            "expenses.user_id",
+                            "users.name",
+                            "users.userType"
+                        )->orderBy("created_at", "desc")->get();
+                        $pdf = PDF::loadView(
+                            "expenses.expensesPdf",
+                            [
+                                "collection" =>  $expenses,
+                                "yearTotal" => $yearTotal,
+                                "year1" => $inputs['month1'],
+                                "year2" => $inputs['month2']
+                            ]
+                        );
+                        return $pdf->stream('fwpassociation-expenses.pdf');
+        } catch (QueryException $th) {
+            throw $th;
+        }
+    }
+
+    public function values(Request $request){
+
+        
+        $inputs = $request->all();
+
+        $user = User::findOrFail(Auth::user()->id);
+        $runningloan = DB::table("loans")->where("user_id", "=", Auth::user()->id)->where("loans.status", "=", "approved")->value("loanamount");
+        $total_amount = DB::table("savings")->where("name_id", "=", Auth::user()->id)->sum("total_amount");
+
+        try {
+            return response()->json([
+                "loans" => $runningloan,
+                "total_amount" => $total_amount
+            ]);
         } catch (QueryException $th) {
             throw $th;
         }
